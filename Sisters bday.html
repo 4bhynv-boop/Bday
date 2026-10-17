@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100d25">
+<title>A Little Surprise 🎁</title>
+<style>
+  :root { color-scheme: dark; --bg:#100d25; --panel:#1d183b; --pink:#ff8fca; --lav:#c9b8ff; --text:#fff8ff; --muted:#d3cbe7; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; overflow-x:hidden; background:radial-gradient(ellipse at top,#33205a 0%,#17122f 48%,#0c0a1b 100%); color:var(--text); font-family: ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .stars, .confetti-layer { position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+  .star { position:absolute; width:3px; height:3px; border-radius:50%; background:#fff; opacity:.6; animation:twinkle 2.5s infinite ease-in-out alternate; }
+  @keyframes twinkle { to { opacity:.15; transform:scale(.65); } }
+  .wrap { width:min(720px,100%); min-height:100vh; margin:auto; padding:34px 20px 48px; display:flex; align-items:center; justify-content:center; }
+  .card { width:100%; text-align:center; padding:clamp(26px,6vw,52px) clamp(18px,5vw,44px); border:1px solid #ffffff20; border-radius:30px; background:linear-gradient(145deg,#ffffff10,#ffffff05); box-shadow:0 22px 90px #0005,inset 0 1px #ffffff15; backdrop-filter:blur(12px); position:relative; }
+  .eyebrow { text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; color:var(--lav); font-weight:800; }
+  h1 { font-size:clamp(2.2rem,9vw,4.6rem); line-height:1.04; margin:18px 0 16px; letter-spacing:-.055em; }
+  .gradient { background:linear-gradient(90deg,#fff2fb,#ff9fce,#c9b8ff); color:transparent; background-clip:text; -webkit-background-clip:text; }
+  p { line-height:1.75; color:var(--muted); font-size:1rem; }
+  .gift { font-size:clamp(4.5rem,17vw,7rem); margin:22px 0; filter:drop-shadow(0 8px 25px #ff8fca45); animation:bob 2.6s ease-in-out infinite; }
+  @keyframes bob { 50% { transform:translateY(-9px) rotate(3deg); } }
+  button { border:0; cursor:pointer; color:#25132f; font:inherit; font-weight:850; padding:15px 23px; border-radius:999px; background:linear-gradient(100deg,#ffb3d9,#d4c0ff); box-shadow:0 9px 28px #eaa0e43b; transition:transform .18s,filter .18s; }
+  button:hover { transform:translateY(-2px); filter:brightness(1.07); }
+  button:focus-visible { outline:3px solid white; outline-offset:4px; }
+  .small { font-size:.8rem; color:#a99dbf; margin-top:18px; }
+  .hidden { display:none; }
+  .message { background:#ffffff0a; border:1px solid #ffffff17; padding:22px; border-radius:20px; margin:24px 0; text-align:left; }
+  .message p { margin:0 0 12px; }
+  .message p:last-child { margin-bottom:0; }
+  .cake { font-size:4.5rem; margin:8px 0 0; }
+  .footer { color:#a99dbf; font-size:.75rem; margin-top:24px; }
+  .confetti { position:absolute; top:-15px; width:8px; height:13px; opacity:.9; animation:fall 3.2s linear forwards; }
+  @keyframes fall { to { transform:translateY(110vh) rotate(760deg); opacity:.1; } }
+  .pill { display:inline-block; border:1px solid #ffffff22; border-radius:99px; padding:7px 12px; color:#d7c8ff; font-size:.78rem; margin:4px; }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } }
+</style>
+</head>
+<body>
+<div class="stars" id="stars" aria-hidden="true"></div>
+<div class="confetti-layer" id="confetti" aria-hidden="true"></div>
+<main class="wrap">
+  <section class="card" aria-live="polite">
+    <div id="intro">
+      <div class="eyebrow">A tiny website · A huge amount of love</div>
+      <div class="gift" aria-hidden="true">🎁</div>
+      <h1>Hey, <span class="gradient" id="friendNameTop">Bestie</span>!</h1>
+      <p>I made a little something for you.<br>Ready to unlock your birthday surprise?</p>
+      <button id="openBtn">Open your surprise ✨</button>
+      <div class="small">Psst… this page was made just for you.</div>
+    </div>
+    <div id="surprise" class="hidden">
+      <div class="eyebrow">Today is all about you</div>
+      <div class="cake" aria-hidden="true">🎂</div>
+      <h1>Happy Birthday,<br><span class="gradient" id="friendName">Bestie</span>! 🎉</h1>
+      <div><span class="pill">Best-friend energy</span><span class="pill">Core memories</span><span class="pill">More adventures</span></div>
+      <div class="message">
+        <p>💌 <strong>To my favourite human,</strong></p>
+        <p>Happy birthday to the friend who makes ordinary days memorable and the best moments even better. Thanks for all the laughs, the random conversations, and the memories we’ve made.</p>
+        <p>I hope this new year brings you happiness, exciting adventures, good people, and a thousand reasons to smile. Keep being your wonderfully weird self.</p>
+        <p><strong>Whatever comes next, I’m cheering for you. Here’s to many more memories together! 💜</strong></p>
+        <p style="text-align:right">— Your best friend 🫶</p>
+      </div>
+      <button id="againBtn">Celebrate again 🎊</button>
+      <div class="footer">Made with friendship, a little code, and lots of confetti.</div>
+    </div>
+  </section>
+</main>
+<script>
+  // Personalise these two values before publishing.
+  const FRIEND_NAME = "Bestie"; // Replace with your friend's name.
+  const SIGN_OFF = "Your best friend"; // Replace with your name or nickname.
+  document.title = `Happy Birthday, ${FRIEND_NAME}! 🎂`;
+  document.getElementById('friendNameTop').textContent = FRIEND_NAME;
+  document.getElementById('friendName').textContent = FRIEND_NAME;
+  document.querySelector('.message p:last-child').textContent = `— ${SIGN_OFF} 🫶`;
+
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 75; i++) {
+    const star = document.createElement('span');
+    star.className = 'star';
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.animationDelay = `${Math.random() * 3}s`;
+    stars.appendChild(star);
+  }
+  function celebrate() {
+    const layer = document.getElementById('confetti');
+    const colors = ['#ff8fca','#c9b8ff','#ffe18a','#9af0dc','#ffffff'];
+    for (let i = 0; i < 95; i++) {
+      const piece = document.createElement('span');
+      piece.className = 'confetti';
+      piece.style.left = `${Math.random() * 100}%`;
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = `${Math.random() * .8}s`;
+      piece.style.animationDuration = `${2.4 + Math.random() * 2}s`;
+      piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+      layer.appendChild(piece);
+      setTimeout(() => piece.remove(), 5000);
+    }
+  }
+  document.getElementById('openBtn').addEventListener('click', () => {
+    document.getElementById('intro').classList.add('hidden');
+    document.getElementById('surprise').classList.remove('hidden');
+    celebrate();
+  });
+  document.getElementById('againBtn').addEventListener('click', celebrate);
+</script>
+</body>
+</html>
